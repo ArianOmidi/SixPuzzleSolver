@@ -2,7 +2,6 @@ import java.util.*;
 
 public class SixPuzzleSolver {
     private final State initState, goalState;
-    private Queue<State> openQueue;
     private List<State> visitedList;
 
     public SixPuzzleSolver(int[] initState, int[] goalState){
@@ -15,17 +14,6 @@ public class SixPuzzleSolver {
 
     public boolean isGoalState(State state){
         return state.equals(goalState);
-    }
-
-
-    /* Getters */
-
-    public State getInitState() {
-        return initState;
-    }
-
-    public State getGoalState() {
-        return goalState;
     }
 
 
@@ -44,20 +32,19 @@ public class SixPuzzleSolver {
             state.print();
         }
 
-        System.out.println("Depth: " + (solution.size() - 1));
+        System.out.println("Number of Moves: " + (solution.size() - 1) + "\n");
     }
 
 
     /* Search Functions */
 
     public void breathFirstSearch(){
-        State curState = initState;
+        Queue<State> openQueue = new LinkedList<>();
         visitedList = new ArrayList<>();
-        openQueue = new LinkedList<>();
+        State curState = initState;
 
         visitedList.add(initState);
         openQueue.add(curState);
-
 
         while (openQueue.size() != 0){
             curState = openQueue.poll();
@@ -78,7 +65,12 @@ public class SixPuzzleSolver {
                 }
             }
         }
+
         System.out.println("No Solution");
+    }
+
+    public void uniformCostSearch(){
+        breathFirstSearch();
     }
 
     public void depthFirstSearch(){
@@ -102,16 +94,47 @@ public class SixPuzzleSolver {
         }
     }
 
+    public void iterativeDeepeningSearch(int maxDepth){
+        for (int i=0; i < maxDepth; i++){
+            if (depthLimitedSearch(initState, i)){
+                return;
+            }
+        }
+
+        System.out.println("No Solution");
+    }
+
+    private boolean depthLimitedSearch(State state, int limit){
+        if (isGoalState(state)) {
+            printSolution(state);
+            return true;
+        }
+
+        if (limit <= 0){
+            return false;
+        }
+
+        for (State child : state.getChildren()) {
+            if (depthLimitedSearch(child, limit - 1)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /* Main Function */
 
     public static void main(String[] args) {
         int[] initState = new int[]{1,4,2,5,3,0};
         int[] goalState = new int[]{0,1,2,5,4,3};
-        SixPuzzleSolver sp = new SixPuzzleSolver(initState, goalState);
+        SixPuzzleSolver puzzleSolver = new SixPuzzleSolver(initState, goalState);
 
-//        sp.breathFirstSearch();
-        sp.depthFirstSearch();
+        puzzleSolver.breathFirstSearch();
+        puzzleSolver.uniformCostSearch();
+        puzzleSolver.depthFirstSearch();
+        puzzleSolver.iterativeDeepeningSearch(200);
     }
 
 
