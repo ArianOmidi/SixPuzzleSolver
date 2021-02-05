@@ -76,14 +76,36 @@ public class SixPuzzleSolver {
         System.out.println("No Solution");
     }
 
+    public void depthFirstSearch(){
+        visitedList = new ArrayList<>();
+
+        depthFirstSearchRec(initState);
+    }
+
+    private void depthFirstSearchRec(State state){
+        visitedList.add(state);
+
+        if (isGoalState(state)){
+            printSolution(state);
+            return;
+        }
+
+        List<State> children = state.getChildren();
+        for (State child : state.getChildren()) {
+            if (!visitedList.contains(child)) {
+                depthFirstSearchRec(child);
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         int[] initState = new int[]{1,4,2,5,3,0};
         int[] goalState = new int[]{0,1,2,5,4,3};
         SixPuzzleSolver sp = new SixPuzzleSolver(initState, goalState);
 
-        sp.breathFirstSearch();
-
+//        sp.breathFirstSearch();
+        sp.depthFirstSearch();
     }
 
 

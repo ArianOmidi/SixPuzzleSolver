@@ -42,7 +42,7 @@ public class State {
     private int[] getNeighbors() {
         switch (emptyIndex){
             case 0:
-                return new int[]{1,4};
+                return new int[]{1,3};
             case 1:
                 return new int[]{0,2,4};
             case 2:
@@ -70,7 +70,7 @@ public class State {
                 if (j == children.size()){
                     children.add(child);
                     break;
-                } else if (children.get(j).getState()[emptyIndex] < child.getState()[emptyIndex]){
+                } else if (children.get(j).getState()[emptyIndex] > child.getState()[emptyIndex]){
                     children.add(j, child);
                     break;
                 }
