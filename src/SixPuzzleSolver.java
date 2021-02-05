@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class SixPuzzleSolver {
-    private State initState, goalState;
+    private final State initState, goalState;
     private Queue<State> openQueue;
     private List<State> visitedList;
 
@@ -95,7 +95,6 @@ public class SixPuzzleSolver {
             return;
         }
 
-        List<State> children = state.getChildren();
         for (State child : state.getChildren()) {
             if (!visitedList.contains(child)) {
                 depthFirstSearchRec(child);
