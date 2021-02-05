@@ -1,13 +1,20 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class State implements Comparable<State> {
+public class State {
 
+    private State parent;
     private int emptyIndex;
     private int[] state;
 
     public State(int[] state){
+        this(state, null);
+    }
+
+    public State(int[] state, State parent){
+        this.parent = parent;
         this.state = state;
 
         for (int i = 0; i < this.state.length; i++){
@@ -26,6 +33,10 @@ public class State implements Comparable<State> {
 
     public int[] getState() {
         return state;
+    }
+
+    public State getParent() {
+        return parent;
     }
 
     private int[] getNeighbors() {
@@ -52,14 +63,14 @@ public class State implements Comparable<State> {
         ArrayList<State> children = new ArrayList<>();
 
         for (int i = 0; i < neighbors.length; i++){
-            State child = new State(this.state);
+            State child = new State(Arrays.copyOf(this.state, this.state.length), this);
             child.swapValues(neighbors[i]);
 
             for (int j = 0; j <= children.size(); j++){
-                if (i == children.size()){
+                if (j == children.size()){
                     children.add(child);
                     break;
-                } else if (children.get(j).getState()[emptyIndex] > child.getState()[emptyIndex]){
+                } else if (children.get(j).getState()[emptyIndex] < child.getState()[emptyIndex]){
                     children.add(j, child);
                     break;
                 }
@@ -70,19 +81,34 @@ public class State implements Comparable<State> {
     }
 
     public void swapValues(int index){
-        int tmp = state[index];
-
         state[emptyIndex] = state[index];
         state[index] = 0;
+        emptyIndex = index;
     }
 
-    public boolean equals(State state1){
+    @Override
+    public boolean equals(Object o){
+        if (this == o)
+            return true;
+
+        if (!(o instanceof State))
+            return false;
+
         for (int i = 0; i < 6; i++){
-            if (state1.getState()[i] != this.state[i]){
+            if (((State) o).getState()[i] != this.state[i]){
                 return false;
             }
         }
         return true;
+    }
+
+    public void print(){
+        for (int i = 0; i < state.length; i++){
+            if (i == 3)
+                System.out.print("\n");
+            System.out.print(" " + state[i] + " ");
+        }
+        System.out.print("\n\n");
     }
 
 }
