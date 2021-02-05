@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class SixPuzzleSolver {
-
     private State initState, goalState;
     private Queue<State> openQueue;
     private List<State> visitedList;
@@ -9,14 +8,17 @@ public class SixPuzzleSolver {
     public SixPuzzleSolver(int[] initState, int[] goalState){
         this.initState = new State(initState);
         this.goalState = new State(goalState);
-
-        this.openQueue = new LinkedList<>();
-        this.visitedList = new ArrayList<>();
     }
+
+
+    /* Checkers */
 
     public boolean isGoalState(State state){
         return state.equals(goalState);
     }
+
+
+    /* Getters */
 
     public State getInitState() {
         return initState;
@@ -26,6 +28,8 @@ public class SixPuzzleSolver {
         return goalState;
     }
 
+
+    /* Helper Methods */
 
     public void printSolution(State goalState){
         List<State> solution = new ArrayList<>();
@@ -44,6 +48,7 @@ public class SixPuzzleSolver {
     }
 
 
+    /* Search Functions */
 
     public void breathFirstSearch(){
         State curState = initState;
@@ -98,6 +103,8 @@ public class SixPuzzleSolver {
         }
     }
 
+
+    /* Main Function */
 
     public static void main(String[] args) {
         int[] initState = new int[]{1,4,2,5,3,0};

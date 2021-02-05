@@ -1,10 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public class State {
-
     private State parent;
     private int emptyIndex;
     private int[] state;
@@ -80,10 +78,22 @@ public class State {
         return children;
     }
 
+
+    /* Functions */
+
     public void swapValues(int index){
         state[emptyIndex] = state[index];
         state[index] = 0;
         emptyIndex = index;
+    }
+
+    public void print(){
+        for (int i = 0; i < state.length; i++){
+            if (i == 3)
+                System.out.print("\n");
+            System.out.print(" " + state[i] + " ");
+        }
+        System.out.print("\n\n");
     }
 
     @Override
@@ -100,15 +110,6 @@ public class State {
             }
         }
         return true;
-    }
-
-    public void print(){
-        for (int i = 0; i < state.length; i++){
-            if (i == 3)
-                System.out.print("\n");
-            System.out.print(" " + state[i] + " ");
-        }
-        System.out.print("\n\n");
     }
 
 }
