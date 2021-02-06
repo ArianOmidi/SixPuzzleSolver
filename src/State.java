@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class State {
-    private State parent;
+    private final State parent;
+    private final int[] state;
     private int emptyIndex;
-    private int[] state;
 
     public State(int[] state){
         this(state, null);
@@ -28,10 +28,6 @@ public class State {
     }
 
     /* Getters */
-
-    public int getEmptyIndex() {
-        return emptyIndex;
-    }
 
     public int[] getState() {
         return state;
@@ -64,15 +60,15 @@ public class State {
         int[] neighbors = getNeighbors();
         ArrayList<State> children = new ArrayList<>();
 
-        for (int i = 0; i < neighbors.length; i++){
+        for (int neighbor : neighbors) {
             State child = new State(Arrays.copyOf(this.state, this.state.length), this);
-            child.swapValues(neighbors[i]);
+            child.swapValues(neighbor);
 
-            for (int j = 0; j <= children.size(); j++){
-                if (j == children.size()){
+            for (int j = 0; j <= children.size(); j++) {
+                if (j == children.size()) {
                     children.add(child);
                     break;
-                } else if (children.get(j).getState()[emptyIndex] > child.getState()[emptyIndex]){
+                } else if (children.get(j).getState()[emptyIndex] > child.getState()[emptyIndex]) {
                     children.add(j, child);
                     break;
                 }
