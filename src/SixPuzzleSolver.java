@@ -1,3 +1,7 @@
+// Code inspired by :
+// SG, F. (2019). Solving the 8 puzzle problem using A* (star) algorithm.
+// Retrieved 4 February 2021, from https://medium.com/@faramira.sg/solving-the-8-puzzle-problem-using-a-star-algorithm-5cf1db4cdb0f
+
 import java.util.*;
 
 public class SixPuzzleSolver {
